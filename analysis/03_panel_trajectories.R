@@ -14,8 +14,8 @@ library(patchwork)
 data_path <- "data_DeID_clean_2026-04-06.csv"
 df <- read_csv(data_path)
 
-# Set project directory for saving outputs
-project_dir <- getwd()
+# Set output directory for saving visuals
+output_dir <- "/Users/jeremy/Library/CloudStorage/OneDrive-UW/Next Steps/Research/Quantitative/Visuals"
 
 # Filter out participants with only 1 timepoint
 df_filtered <- df %>%
@@ -57,6 +57,8 @@ create_panel_plot <- function(data, variable_name, timepoint_cat) {
     facet_wrap(~record_id, nrow = 1, scales = "free_y") +
     theme_minimal() +
     theme(
+      plot.background = element_rect(fill = "white", color = NA),
+      panel.background = element_rect(fill = "white", color = NA),
       plot.title = element_text(size = 12, face = "bold"),
       axis.title = element_text(size = 10),
       strip.text = element_text(size = 9, face = "bold"),
@@ -84,8 +86,8 @@ for (var in cols_to_plot) {
   # Plot for 3+ timepoints
   p_3plus <- create_panel_plot(df_filtered, var, "3+ Timepoints")
   if (!is.null(p_3plus)) {
-    filename <- file.path(project_dir, paste0("03_trajectories_", gsub(" ", "_", var), "_3plus_timepoints.png"))
-    ggsave(filename, p_3plus, width = 14, height = 4, dpi = 300)
+    filename <- file.path(output_dir, paste0("03_trajectories_", gsub(" ", "_", var), "_3plus_timepoints.png"))
+    ggsave(filename, p_3plus, width = 14, height = 4, dpi = 300, bg = "white")
     cat("Saved:", filename, "\n")
     print(p_3plus)
   }
@@ -93,8 +95,8 @@ for (var in cols_to_plot) {
   # Plot for 2 timepoints
   p_2 <- create_panel_plot(df_filtered, var, "2 Timepoints")
   if (!is.null(p_2)) {
-    filename <- file.path(project_dir, paste0("03_trajectories_", gsub(" ", "_", var), "_2_timepoints.png"))
-    ggsave(filename, p_2, width = 14, height = 4, dpi = 300)
+    filename <- file.path(output_dir, paste0("03_trajectories_", gsub(" ", "_", var), "_2_timepoints.png"))
+    ggsave(filename, p_2, width = 14, height = 4, dpi = 300, bg = "white")
     cat("Saved:", filename, "\n")
     print(p_2)
   }
@@ -135,8 +137,8 @@ for (var in cols_to_plot) {
   # Plot for 3+ timepoints
   p_3plus <- create_panel_plot(df_filtered, pc_var, "3+ Timepoints")
   if (!is.null(p_3plus)) {
-    filename <- file.path(project_dir, paste0("03_trajectories_person_centered_", gsub(" ", "_", var), "_3plus_timepoints.png"))
-    ggsave(filename, p_3plus, width = 14, height = 4, dpi = 300)
+    filename <- file.path(output_dir, paste0("03_trajectories_person_centered_", gsub(" ", "_", var), "_3plus_timepoints.png"))
+    ggsave(filename, p_3plus, width = 14, height = 4, dpi = 300, bg = "white")
     cat("Saved:", filename, "\n")
     print(p_3plus)
   }
@@ -144,8 +146,8 @@ for (var in cols_to_plot) {
   # Plot for 2 timepoints
   p_2 <- create_panel_plot(df_filtered, pc_var, "2 Timepoints")
   if (!is.null(p_2)) {
-    filename <- file.path(project_dir, paste0("03_trajectories_person_centered_", gsub(" ", "_", var), "_2_timepoints.png"))
-    ggsave(filename, p_2, width = 14, height = 4, dpi = 300)
+    filename <- file.path(output_dir, paste0("03_trajectories_person_centered_", gsub(" ", "_", var), "_2_timepoints.png"))
+    ggsave(filename, p_2, width = 14, height = 4, dpi = 300, bg = "white")
     cat("Saved:", filename, "\n")
     print(p_2)
   }
@@ -176,6 +178,8 @@ for (var in cols_to_plot) {
     geom_hline(yintercept = 0, linetype = "dashed", color = "gray50", alpha = 0.7) +
     theme_minimal() +
     theme(
+      plot.background = element_rect(fill = "white", color = NA),
+      panel.background = element_rect(fill = "white", color = NA),
       plot.title = element_text(size = 13, face = "bold"),
       axis.title = element_text(size = 11),
       panel.grid.major = element_line(color = "gray90")
@@ -188,8 +192,8 @@ for (var in cols_to_plot) {
     )
   
   # Save plot
-  filename <- file.path(project_dir, paste0("03_average_person_centered_", gsub(" ", "_", var), ".png"))
-  ggsave(filename, p_avg, width = 8, height = 6, dpi = 300)
+  filename <- file.path(output_dir, paste0("03_average_person_centered_", gsub(" ", "_", var), ".png"))
+  ggsave(filename, p_avg, width = 8, height = 6, dpi = 300, bg = "white")
   cat("Saved:", filename, "\n")
   print(p_avg)
   
