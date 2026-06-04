@@ -37,9 +37,10 @@ cols_to_plot <- c("bite_avg", "sip_sum", "mps_sum", "wccl_skills_mean", "WCCL_po
 
 # Function to create panel plots for a given variable
 create_panel_plot <- function(data, variable_name, timepoint_cat) {
-  # Filter for the specific timepoint category and sort by timepoint
+  # Filter for the specific timepoint category, remove NA values for the variable, and sort by timepoint
   data_subset <- data %>%
     filter(timepoint_category == timepoint_cat) %>%
+    filter(!is.na(.data[[variable_name]])) %>%
     arrange(record_id, timepoint)
   
   # Get unique record_ids
@@ -52,8 +53,8 @@ create_panel_plot <- function(data, variable_name, timepoint_cat) {
   
   # Create plot
   p <- ggplot(data_subset, aes(x = timepoint, y = .data[[variable_name]], color = factor(record_id))) +
-    geom_line(aes(group = record_id), size = 0.8, alpha = 0.7, na.rm = TRUE) +
-    geom_point(size = 2, na.rm = TRUE) +
+    geom_line(aes(group = record_id), size = 0.8, alpha = 0.7) +
+    geom_point(size = 2) +
     facet_wrap(~record_id, nrow = 1, scales = "free_y") +
     theme_minimal() +
     theme(
@@ -171,8 +172,8 @@ for (var in cols_to_plot) {
   
   # Create average plot
   p_avg <- ggplot(avg_pc_by_timepoint, aes(x = timepoint, y = mean_pc_score)) +
-    geom_line(size = 1, color = "steelblue", na.rm = TRUE) +
-    geom_point(size = 3, color = "steelblue", na.rm = TRUE) +
+    geom_line(size = 1, color = "steelblue") +
+    geom_point(size = 3, color = "steelblue") +
     geom_errorbar(aes(ymin = mean_pc_score - se_pc_score, ymax = mean_pc_score + se_pc_score), 
                   width = 0.2, color = "steelblue", alpha = 0.6) +
     geom_hline(yintercept = 0, linetype = "dashed", color = "gray50", alpha = 0.7) +
