@@ -51,9 +51,9 @@ create_panel_plot <- function(data, variable_name, timepoint_cat) {
   }
   
   # Create plot
-  p <- ggplot(data_subset, aes(x = `Day of Assessment`, y = .data[[variable_name]], color = factor(record_id))) +
-    geom_line(size = 0.8, alpha = 0.7) +
-    geom_point(size = 2) +
+  p <- ggplot(data_subset, aes(x = timepoint, y = .data[[variable_name]], color = factor(record_id))) +
+    geom_line(size = 0.8, alpha = 0.7, na.rm = TRUE) +
+    geom_point(size = 2, na.rm = TRUE) +
     facet_wrap(~record_id, nrow = 1, scales = "free_y") +
     theme_minimal() +
     theme(
@@ -66,7 +66,7 @@ create_panel_plot <- function(data, variable_name, timepoint_cat) {
     ) +
     labs(
       title = paste(variable_name, "-", timepoint_cat, "(n =", n_records, "participants)"),
-      x = "Day of Assessment",
+      x = "Timepoint",
       y = variable_name
     )
   
@@ -171,8 +171,8 @@ for (var in cols_to_plot) {
   
   # Create average plot
   p_avg <- ggplot(avg_pc_by_timepoint, aes(x = timepoint, y = mean_pc_score)) +
-    geom_line(size = 1, color = "steelblue") +
-    geom_point(size = 3, color = "steelblue") +
+    geom_line(size = 1, color = "steelblue", na.rm = TRUE) +
+    geom_point(size = 3, color = "steelblue", na.rm = TRUE) +
     geom_errorbar(aes(ymin = mean_pc_score - se_pc_score, ymax = mean_pc_score + se_pc_score), 
                   width = 0.2, color = "steelblue", alpha = 0.6) +
     geom_hline(yintercept = 0, linetype = "dashed", color = "gray50", alpha = 0.7) +
