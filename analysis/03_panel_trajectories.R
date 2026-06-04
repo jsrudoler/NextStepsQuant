@@ -2,7 +2,20 @@
 # Script 3: Panel Line Plots by Participant
 # Purpose: Create longitudinal trajectory visualizations
 
-source("analysis/01_data_loading.R")
+# Set working directory
+setwd("/Users/jeremy/Library/CloudStorage/OneDrive-UW/Next Steps/Research/Quantitative/Data")
+
+# Load required libraries
+library(tidyverse)
+library(ggplot2)
+library(patchwork)
+
+# Read in the data
+data_path <- "data_DeID_clean_2026-04-06.csv"
+df <- read_csv(data_path)
+
+# Set project directory for saving outputs
+project_dir <- getwd()
 
 # Filter out participants with only 1 timepoint
 df_filtered <- df %>%
@@ -94,7 +107,7 @@ for (var in cols_to_plot) {
   
   # Save plot
   if (!is.null(combined_plot)) {
-    filename <- file.path(project_dir, "output", paste0("03_trajectories_", gsub(" ", "_", var), ".png"))
+    filename <- file.path(project_dir, paste0("03_trajectories_", gsub(" ", "_", var), ".png"))
     ggsave(filename, combined_plot, width = 14, height = 8, dpi = 300)
     cat("Saved:", filename, "\n")
     print(combined_plot)
@@ -165,7 +178,7 @@ for (var in cols_to_plot) {
   
   # Save plot
   if (!is.null(combined_plot)) {
-    filename <- file.path(project_dir, "output", paste0("03_trajectories_person_centered_", gsub(" ", "_", var), ".png"))
+    filename <- file.path(project_dir, paste0("03_trajectories_person_centered_", gsub(" ", "_", var), ".png"))
     ggsave(filename, combined_plot, width = 14, height = 8, dpi = 300)
     cat("Saved:", filename, "\n")
     print(combined_plot)
@@ -209,7 +222,7 @@ for (var in cols_to_plot) {
     )
   
   # Save plot
-  filename <- file.path(project_dir, "output", paste0("03_average_person_centered_", gsub(" ", "_", var), ".png"))
+  filename <- file.path(project_dir, paste0("03_average_person_centered_", gsub(" ", "_", var), ".png"))
   ggsave(filename, p_avg, width = 8, height = 6, dpi = 300)
   cat("Saved:", filename, "\n")
   print(p_avg)
