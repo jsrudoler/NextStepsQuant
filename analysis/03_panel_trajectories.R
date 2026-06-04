@@ -37,10 +37,10 @@ cols_to_plot <- c("bite_avg", "sip_sum", "mps_sum", "wccl_skills_mean", "WCCL_po
 
 # Function to create panel plots for a given variable
 create_panel_plot <- function(data, variable_name, timepoint_cat) {
-  # Filter for the specific timepoint category
+  # Filter for the specific timepoint category and sort by timepoint
   data_subset <- data %>%
     filter(timepoint_category == timepoint_cat) %>%
-    arrange(record_id)
+    arrange(record_id, timepoint)
   
   # Get unique record_ids
   unique_records <- unique(data_subset$record_id)
@@ -52,7 +52,7 @@ create_panel_plot <- function(data, variable_name, timepoint_cat) {
   
   # Create plot
   p <- ggplot(data_subset, aes(x = timepoint, y = .data[[variable_name]], color = factor(record_id))) +
-    geom_line(size = 0.8, alpha = 0.7, na.rm = TRUE) +
+    geom_line(aes(group = record_id), size = 0.8, alpha = 0.7, na.rm = TRUE) +
     geom_point(size = 2, na.rm = TRUE) +
     facet_wrap(~record_id, nrow = 1, scales = "free_y") +
     theme_minimal() +
